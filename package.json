@@ -8,19 +8,27 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-community/art": "^1.2.0",
+    "@react-native-community/masked-view": "0.1.6",
     "expo": "~37.0.3",
+    "fetch-progress": "^1.2.0",
+    "lodash": "^4.17.15",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-37.0.0.tar.gz",
     "react-native-gesture-handler": "~1.6.0",
+    "react-native-progress": "^4.1.2",
     "react-native-reanimated": "~1.7.0",
+    "react-native-safe-area-context": "0.7.3",
     "react-native-screens": "~2.2.0",
+    "react-native-svg": "^11.0.1",
+    "react-native-ui-kitten": "^4.4.1",
     "react-native-web": "~0.11.7",
     "react-navigation": "^4.3.6",
     "react-navigation-stack": "^2.3.10",
     "react-navigation-tabs": "^2.8.10",
-    "react-native-safe-area-context": "0.7.3",
-    "@react-native-community/masked-view": "0.1.6"
+    "expo-sqlite": "~8.1.0",
+    "react-native-appearance": "~0.3.3"
   },
   "devDependencies": {
     "babel-preset-expo": "~8.1.0",
