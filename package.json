@@ -11,7 +11,6 @@
     "@react-native-community/art": "^1.2.0",
     "@react-native-community/masked-view": "0.1.6",
     "expo": "~37.0.3",
-    "fetch-progress": "^1.2.0",
     "lodash": "^4.17.15",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
