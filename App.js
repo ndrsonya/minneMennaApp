@@ -7,7 +7,7 @@ import PlacesScreen from './screens/PlacesScreen';
 import EventsScreen from './screens/EventsScreen';
 import FavPlacesScreen from './screens/FavPlacesScreen';
 import MyPlansScreen from './screens/MyPlansScreen';
-import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
+
 
 
 

@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     listcontainer: {
-        flexDirection: 'row',
+        flexDirection: 'column',
         backgroundColor: '#fff',
         alignItems: 'center'
     },

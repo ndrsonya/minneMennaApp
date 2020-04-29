@@ -1,9 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator, Alert, StyleSheet, Text, View, Button, TextInput, FlatList, Image, ProgressViewIOS } from 'react-native';
+import { ActivityIndicator, Linking, Alert, StyleSheet, View, Button, TextInput, FlatList, Image, ProgressViewIOS } from 'react-native';
 import _ from 'lodash';
 import * as SQLite from 'expo-sqlite';
-import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
+import Toast from 'react-native-tiny-toast';
+import { ListItem } from 'react-native-elements';
+import { Icon, Text } from 'react-native-elements'
+
 
 const db = SQLite.openDatabase('coursedb.db');
 
@@ -15,14 +18,8 @@ export default function EventsScreen(props) {
     const [isTrue, setIsTrue] = useState(true);
     const [events, setEvents] = useState([]);
     const [list, setList] = useState([]);
-    const colorScheme = useColorScheme();
 
-    const themeStatusBarStyle =
-        colorScheme === 'light' ? 'dark-content' : 'light-content';
-    const themeTextStyle =
-        colorScheme === 'light' ? styles.lightThemeText : styles.darkThemeText;
-    const themeContainerStyle =
-        colorScheme === 'light' ? styles.lightContainer : styles.darkContainer;
+
 
     //Create table in database to store user's events
     const createTable = () => {
@@ -33,9 +30,11 @@ export default function EventsScreen(props) {
     }
     // Save event to database
     const saveItem = (item) => {
+        Toast.show('Event is saved');
         db.transaction(tx => {
             tx.executeSql('insert into events (name, description, location) values (?, ?, ?);', [item.name, item.description, item.location]);
         }, null, updateList
+
         )
     }
     // Update 
@@ -61,7 +60,7 @@ export default function EventsScreen(props) {
             });
 
     }
-
+    //Rendering events
     React.useEffect(() => {
         getEvents();
         createTable();
@@ -75,6 +74,7 @@ export default function EventsScreen(props) {
             name: i,
             description: _.get(_.find(v, 'description.intro'), 'description.intro'),
             location: _.get(_.find(v, 'location.address.locality'), 'location.address.locality'),
+            link: _.get(_.find(v, 'info_url'), 'info_url'),
             id: _.get(_.find(v, 'id'), 'id')
         }
     }).value();
@@ -83,6 +83,41 @@ export default function EventsScreen(props) {
     _.remove(result, function (n) {
         return n.name.toLowerCase().includes("peruttu") || n.name.toLowerCase().includes("peruutettu") || n.name.toLowerCase().includes("suljettu");
     });
+
+    //Deleting cancelled events without the link
+    _.remove(result, function (n) {
+        return n.link == null;
+    });
+
+    keyExtractor = (item, index) => index.toString()
+
+    renderItem = ({ item }) => (
+        <ListItem
+            containerStyle={styles.li}
+            onPress={() => loadInBrowser(item.link)}
+            title={item.name}
+            subtitle={
+                <View style={styles.subtitleView}>
+                    <Text style={styles.ratingText}>{item.description}</Text>
+
+                </View>}
+            titleStyle={{ fontWeight: 'bold' }}
+            rightIcon={<Icon
+                name='bookmark'
+                color="#0072c6"
+                onPress={() => saveItem(item)}
+                size="30"
+            />}
+            chervon
+            bottomDivider
+
+        />
+    )
+    const loadInBrowser = (link) => {
+        Linking.openURL(link).catch(err => console.error("Couldn't load page", err));
+    };
+
+
 
     const listSeparator = () => {
         return (
@@ -102,23 +137,16 @@ export default function EventsScreen(props) {
 
     return (
         <View style={styles.container}>
-            <AppearanceProvider style={[styles.container, themeContainerStyle]}>
-                <ActivityIndicator style={styles.activity} animating={isTrue} size="large" color="#000000 " />
-                <FlatList
-                    style={{ marginTop: "10%" }}
-                    keyExtractor={item => item.id}
-                    renderItem={({ item }) =>
-                        <View>
-                            <Text>{item.name}</Text>
-                            <Text>{item.description}</Text>
-                            <Text>{item.location}</Text>
-                            <Button onPress={() => saveItem(item)} title="Save event" />
-                        </View>
-                    }
-                    ItemSeparatorComponent={listSeparator}
-                    data={result}
-                />
-            </AppearanceProvider>
+
+            <ActivityIndicator style={styles.activity} animating={isTrue} size="large" color="#000000 " />
+
+            <FlatList
+                style={styles.flatlist}
+                keyExtractor={this.keyExtractor}
+                renderItem={this.renderItem}
+                data={result}
+            />
+
         </View >
     );
 };
@@ -129,21 +157,34 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: "#f5a3c7"
     },
     activity: {
-        marginTop: 50
-    },
 
-    lightContainer: {
-        backgroundColor: '#D0D0C0',
+        flex: 1,
+
+        justifyContent: 'center',
+
+        alignItems: 'center',
+
+        height: 80
     },
-    darkContainer: {
-        backgroundColor: '#242C40',
+    flatlist: {
+        width: "100%",
+
+
     },
-    lightThemeText: {
-        color: '#242C40',
+    subtitleView: {
+        flexDirection: 'column',
+        width: "100%",
+
+
     },
-    darkThemeText: {
-        color: '#D0D0C0',
+    ratingText: {
+
     },
+    li: {
+       
+        backgroundColor: "#f5a3c7"
+    }
 });
