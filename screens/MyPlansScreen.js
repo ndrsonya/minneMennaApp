@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, TextInput, View, Button, FlatList } from 'react-native';
+import { StyleSheet, TextInput, View, FlatList, SafeAreaView, ScrollView } from 'react-native';
 import HomeScreen from './HomeScreen';
 import * as SQLite from 'expo-sqlite';
+import { Card, ListItem, Button, Icon, Text, withTheme, Header, Image } from 'react-native-elements';
+import { HeaderElement } from './src/Header';
+
 
 const db = SQLite.openDatabase('coursedb.db');
 
 
-export default function MyPlansScreen(props) {
+export default function MyPlansScreen({ navigation }) {
     const [list, setList] = useState([]);
     //Create table in database to store user's events
     const createTable = () => {
@@ -46,27 +49,31 @@ export default function MyPlansScreen(props) {
             />
         );
     };
-    const { params } = props.navigation.state;
+
     return (
         <View style={styles.container}>
-            <Text>My Plans</Text>
-            <FlatList
+            <HeaderElement />
+            <SafeAreaView style={styles.safeArea}>
+                <Text>My Plans</Text>
+                <FlatList
 
-                keyExtractor={item => item.id.toString()}
-                renderItem={({ item }) =>
-                    <View style={styles.listcontainer}>
-                        <Text style={{ fontSize: 18 }}>{item.name}, {item.description}, {item.location}</Text>
-                        <Button
-                            onPress={() => deleteItem(item.id)}
-                            title="Delete"
-                            color="#841584"
-                            accessibilityLabel="Delete"
-                        />
+                    keyExtractor={item => item.id.toString()}
+                    renderItem={({ item }) =>
+                        <View style={styles.listcontainer}>
+                            <Text style={{ fontSize: 18 }}>{item.name}, {item.description}, {item.location}</Text>
+                            <Button
+                                onPress={() => deleteItem(item.id)}
+                                title="Delete"
+                                color="#841584"
+                                accessibilityLabel="Delete"
+                            />
 
-                    </View>}
-                data={list}
-                ItemSeparatorComponent={listSeparator}
-            />
+                        </View>}
+                    data={list}
+                    ItemSeparatorComponent={listSeparator}
+                />
+            </SafeAreaView>
+
         </View>
     );
 };
@@ -83,4 +90,25 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center'
     },
+    header: {
+        borderBottomWidth: 0,
+        backgroundColor: "#0072c6",
+        flex: 2
+    },
+    safeArea: {
+        flex: 12
+    },
+    headerCenterComponent: {
+
+        justifyContent: "center",
+
+    },
+    logo: {
+        tintColor: "white",
+        width: 110,
+        height: 50,
+        zIndex: 0
+
+
+    }
 });

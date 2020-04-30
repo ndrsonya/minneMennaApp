@@ -7,7 +7,7 @@ import PlacesScreen from './screens/PlacesScreen';
 import EventsScreen from './screens/EventsScreen';
 import FavPlacesScreen from './screens/FavPlacesScreen';
 import MyPlansScreen from './screens/MyPlansScreen';
-
+import { AppearanceProvider, useColorScheme } from 'react-native-appearance';
 
 
 
@@ -17,26 +17,34 @@ const MyApp = createStackNavigator({
   Places: { screen: PlacesScreen },
   Events: { screen: EventsScreen },
   FavPlaces: { screen: FavPlacesScreen },
-  MyPlans: { screen: MyPlansScreen }
+  MyPlans: { screen: MyPlansScreen },
 
-})
+},
+  {
+    navigationOptions: {
+      headerMode: "none",
+      headerShown: false,
+    },
+  }
+)
 
 const AppContainer = createAppContainer(MyApp);
 
 export default function App() {
   return (
-   
-      <AppContainer />
-     
-   
+
+    <AppContainer headerMode="none"
+    headerShown="false"/>
+
+
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  
+  }
 });
