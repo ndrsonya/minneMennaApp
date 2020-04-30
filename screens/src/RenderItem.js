@@ -17,27 +17,18 @@ export const createTable = () => {
     db.transaction(tx => {
         tx.executeSql('create table if not exists events (id integer primary key not null, name text, description text, location text);');
     });
-    updateList();
-}
 
+}
 // Save event to database
 export const saveItem = (item) => {
     Toast.show('Event is saved');
     db.transaction(tx => {
         tx.executeSql('insert into events (name, description, location) values (?, ?, ?);', [item.name, item.description, item.location]);
-    }, null, updateList
+    }, null,
 
     )
 }
 
-// Update 
-export const updateList = () => {
-    db.transaction(tx => {
-        tx.executeSql('select * from events;', [], (_, { rows }) =>
-            setList(rows._array)
-        );
-    });
-}
 
 export const renderItem = ({ item }) => (
     <ListItem

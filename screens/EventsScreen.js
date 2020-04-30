@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { ActivityIndicator, Linking, Alert, StyleSheet, View, TextInput, FlatList, ProgressViewIOS, SafeAreaView, ScrollView } from 'react-native';
 import _ from 'lodash';
 import Toast from 'react-native-tiny-toast';
-import { Card, ListItem, Button, Icon, Text, withTheme, Image } from 'react-native-elements';
-import { renderItem, createTable } from './src/RenderItem';
-import { HeaderElement } from './src/Header';
+import { Card, ListItem, Button, Icon, Text, withTheme,  Image } from 'react-native-elements';
+import { renderItem , createTable} from './src/RenderItem';
+import {HeaderElement} from './src/Header';
 
 
 export default function EventsScreen({ navigation }) {
@@ -33,7 +33,7 @@ export default function EventsScreen({ navigation }) {
     //Rendering events
     React.useEffect(() => {
         getEvents();
-        createTable();
+        createTable;
     }, [])
 
     //Grouping events by the name 
@@ -61,7 +61,7 @@ export default function EventsScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <HeaderElement />
+           <HeaderElement/>
 
             <SafeAreaView style={styles.safeArea}>
                 <ActivityIndicator style={styles.activity} animating={isTrue} size="large" color="#000000 " />

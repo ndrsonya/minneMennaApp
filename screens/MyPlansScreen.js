@@ -4,7 +4,7 @@ import HomeScreen from './HomeScreen';
 import * as SQLite from 'expo-sqlite';
 import { Card, ListItem, Button, Icon, Text, withTheme, Header, Image } from 'react-native-elements';
 import { HeaderElement } from './src/Header';
-
+import {renderItem} from './src/RenderItem'
 
 const db = SQLite.openDatabase('coursedb.db');
 
@@ -58,7 +58,7 @@ export default function MyPlansScreen({ navigation }) {
                 <FlatList
 
                     keyExtractor={item => item.id.toString()}
-                    renderItem={({ item }) =>
+                    renderItem={({item}) =>
                         <View style={styles.listcontainer}>
                             <Text style={{ fontSize: 18 }}>{item.name}, {item.description}, {item.location}</Text>
                             <Button
