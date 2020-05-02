@@ -4,21 +4,15 @@ import HomeScreen from './HomeScreen';
 import * as SQLite from 'expo-sqlite';
 import { Card, ListItem, Button, Icon, Text, withTheme, Header, Image } from 'react-native-elements';
 import { HeaderElement } from './src/Header';
-import {renderItem} from './src/RenderItem'
 
 const db = SQLite.openDatabase('coursedb.db');
 
 
 export default function MyPlansScreen({ navigation }) {
+
     const [list, setList] = useState([]);
-    //Create table in database to store user's events
-    const createTable = () => {
-        db.transaction(tx => {
-            tx.executeSql('create table if not exists events (id integer primary key not null, name text, description text, location text);');
-        });
-        updateList();
-    }
-    // Update 
+
+    // Update table
     const updateList = () => {
         db.transaction(tx => {
             tx.executeSql('select * from events;', [], (_, { rows }) =>
@@ -26,7 +20,8 @@ export default function MyPlansScreen({ navigation }) {
             );
         });
     }
-    // Delete
+
+    // Delete event to database
     const deleteItem = (id) => {
         db.transaction(
             tx => {
@@ -34,44 +29,48 @@ export default function MyPlansScreen({ navigation }) {
             }, null, updateList
         )
     }
+
+    // Component that is used in FlatList
+    const renderItem = ({ item }) => (
+        <ListItem
+            containerStyle={styles.li}
+            title={item.name}
+            subtitle={
+                <View style={styles.subtitleView}>
+                    <Text style={styles.ratingText}>{item.description}</Text>
+    
+                </View>}
+            titleStyle={{ fontWeight: 'bold' }}
+            rightIcon={<Icon
+                name='delete'
+                color="#0072c6"
+                onPress={() => deleteItem(item.id)}
+                size="30"
+            />}
+            chervon
+            bottomDivider
+    
+        />
+    )
+
+    // Calling UseEffect to download data from database
     React.useEffect(() => {
-        createTable();
+        updateList();
     }, [])
-    const listSeparator = () => {
-        return (
-            <View
-                style={{
-                    height: 5,
-                    width: "80%",
-                    backgroundColor: "#fff",
-                    marginLeft: "10%"
-                }}
-            />
-        );
-    };
+
 
     return (
         <View style={styles.container}>
             <HeaderElement />
             <SafeAreaView style={styles.safeArea}>
-                <Text>My Plans</Text>
+
                 <FlatList
-
-                    keyExtractor={item => item.id.toString()}
-                    renderItem={({item}) =>
-                        <View style={styles.listcontainer}>
-                            <Text style={{ fontSize: 18 }}>{item.name}, {item.description}, {item.location}</Text>
-                            <Button
-                                onPress={() => deleteItem(item.id)}
-                                title="Delete"
-                                color="#841584"
-                                accessibilityLabel="Delete"
-                            />
-
-                        </View>}
+                    style={styles.flatlist}
+                    keyExtractor={this.keyExtractor}
+                    renderItem={renderItem}
                     data={list}
-                    ItemSeparatorComponent={listSeparator}
                 />
+
             </SafeAreaView>
 
         </View>
@@ -81,9 +80,10 @@ export default function MyPlansScreen({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: "#9fc9eb",
         alignItems: 'center',
         justifyContent: 'center',
+
     },
     listcontainer: {
         flexDirection: 'column',
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
         flex: 2
     },
     safeArea: {
+        width: "100%",
         flex: 12
     },
     headerCenterComponent: {
@@ -110,5 +111,17 @@ const styles = StyleSheet.create({
         zIndex: 0
 
 
-    }
+    },
+     
+    subtitleView: {
+        flexDirection: 'column',
+        width: "100%",
+    },
+    ratingText: {
+
+    },
+    li: {
+        backgroundColor: "#9fc9eb",
+    },
+
 });

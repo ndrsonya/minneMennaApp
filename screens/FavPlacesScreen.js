@@ -40,9 +40,7 @@ const styles = StyleSheet.create({
         flex: 12
     },
     headerCenterComponent: {
-
         justifyContent: "center",
-
     },
     logo: {
         tintColor: "white",
