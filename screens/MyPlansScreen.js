@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, TextInput, View, FlatList, SafeAreaView, ScrollView } from 'react-native';
-import HomeScreen from './HomeScreen';
+import { StyleSheet, View, FlatList, SafeAreaView } from 'react-native';
 import * as SQLite from 'expo-sqlite';
-import { Card, ListItem, Button, Icon, Text, withTheme, Header, Image } from 'react-native-elements';
+import { ListItem,  Icon, Text} from 'react-native-elements';
 import { HeaderElement } from './src/Header';
 
 const db = SQLite.openDatabase('coursedb.db');

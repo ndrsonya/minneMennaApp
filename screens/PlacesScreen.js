@@ -12,10 +12,13 @@ export default function PlacesScreen({ navigation }) {
     const [places, setPlaces] = useState([]);
     var result = [];
 
-
+    //Calling useEffect to create table in database
+    React.useEffect(() => {
+        createTablePlaces();
+    }, [])
 
     //Geting places from Helsinki API by tag
-    const getEvents = (keyword) => {
+    const getPlaces = (keyword) => {
         result = [];
         setPlaces([]);
         setIsTrue(true);
@@ -32,12 +35,7 @@ export default function PlacesScreen({ navigation }) {
 
     }
 
-    //Calling useEffect to create table in database
-    React.useEffect(() => {
-        createTablePlaces;
-    }, [])
-
-    //Grouping events by the name 
+    //Grouping places by the name 
     result = _.chain(places).groupBy("name.fi").map(function (v, i) {
         return {
             name: i,
@@ -66,17 +64,17 @@ export default function PlacesScreen({ navigation }) {
                     <Button
                         buttonStyle={styles.button}
                         title="Entertainment"
-                        onPress={() => getEvents("/?tags_search=Museum")}
+                        onPress={() => getPlaces("/?tags_search=Museum")}
                     />
                     <Button
                         buttonStyle={styles.button}
                         title="Shopping"
-                        onPress={() => getEvents("/?tags_search=SHOPPING")}
+                        onPress={() => getPlaces("/?tags_search=SHOPPING")}
                     />
                     <Button
                         buttonStyle={styles.button}
                         title="Restaurants"
-                        onPress={() => getEvents("/?tags_search=Restaurant&Cafe")}
+                        onPress={() => getPlaces("/?tags_search=Restaurant&Cafe")}
                     />
 
 
@@ -85,12 +83,12 @@ export default function PlacesScreen({ navigation }) {
                     <Button
                         buttonStyle={styles.button}
                         title="Grocery"
-                        onPress={() => getEvents("/?tags_search=Grocery")}
+                        onPress={() => getPlaces("/?tags_search=Grocery")}
                     />
                     <Button
                         buttonStyle={styles.button}
                         title="Accomodation"
-                        onPress={() => getEvents("/?tags_search=ACCOMMODATION")}
+                        onPress={() => getPlaces("/?tags_search=ACCOMMODATION")}
                     />
                 </View>
 

@@ -30,19 +30,18 @@ export const saveItem = (item) => {
     )
 }
 
-//Create table in database to store user's events
+//Create table Places
 export const createTablePlaces = () => {
     db.transaction(tx => {
         tx.executeSql('create table if not exists places (id integer primary key not null, name text, description text, location text);');
     });
 
 }
-
-// Save place to database
+// Save place
 export const savePlace = (item) => {
     Toast.show('Event is saved');
     db.transaction(tx => {
-        tx.executeSql('insert into places (name, description, location) values (?, ?, ?);', [item.nameEn, item.description, item.location]);
+        tx.executeSql('insert into places (name, description, location) values (?, ?, ?);', [item.name, item.description, item.location]);
     }, null,
 
     )
@@ -87,6 +86,7 @@ export const renderPlaceItem = ({ item }) => (
                       name="explore"
                       size={30}
                       color="#9fc9eb"
+
                     />}
                         buttonStyle={styles.button}
                         title="Show in google maps"
@@ -99,7 +99,7 @@ export const renderPlaceItem = ({ item }) => (
             <Icon
                 name='bookmark'
                 color="#0072c6"
-                onPress={() => saveItem(item)}
+                onPress={() => savePlace(item)}
                 size={50}
             />
         }
