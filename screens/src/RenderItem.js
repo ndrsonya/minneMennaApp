@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator, Linking, Alert, StyleSheet, View, TextInput, FlatList, ProgressViewIOS, SafeAreaView, ScrollView } from 'react-native';
-import { Card, ListItem, Button, Icon, Text, withTheme, Header, Image } from 'react-native-elements';
+import { Linking, StyleSheet, View, } from 'react-native';
+import { ListItem, Button, Icon, Text, } from 'react-native-elements';
 import * as SQLite from 'expo-sqlite';
 import Toast from 'react-native-tiny-toast';
 
@@ -81,17 +81,17 @@ export const renderPlaceItem = ({ item }) => (
             <View style={styles.subtitleView}>
                 <Text style={styles.ratingText}>{item.description}</Text>
                 <Button
-                icon={
-                    <Icon
-                      name="explore"
-                      size={30}
-                      color="#9fc9eb"
+                    icon={
+                        <Icon
+                            name="explore"
+                            size={30}
+                            color="#9fc9eb"
+                        />}
+                    onPress={() => loadInBrowser("https://www.google.com/maps/search/?api=1&query=" + item.lat + "," + item.lon)}
+                    buttonStyle={styles.button}
+                    title="Show in google maps"
 
-                    />}
-                        buttonStyle={styles.button}
-                        title="Show in google maps"
-                        
-                    />
+                />
             </View>}
         titleStyle={{ fontWeight: 'bold' }}
 

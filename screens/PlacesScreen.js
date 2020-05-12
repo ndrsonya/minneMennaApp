@@ -43,7 +43,9 @@ export default function PlacesScreen({ navigation }) {
             description: _.get(_.find(v, 'description.body'), 'description.body'),
             location: _.get(_.find(v, 'location.address.locality'), 'location.address.locality'),
             link: _.get(_.find(v, 'info_url'), 'info_url'),
-            id: _.get(_.find(v, 'id'), 'id')
+            id: _.get(_.find(v, 'id'), 'id'),
+            lat: _.get(_.find(v, 'location.lat'), 'location.lat'),
+            lon: _.get(_.find(v, 'location.lon'), 'location.lon'),
         }
     }).value();
 
@@ -143,11 +145,12 @@ const styles = StyleSheet.create({
         width: "100%",
         flexDirection: "row",
         justifyContent: "space-around",
-        alignItems: "center"
+       
     },
     buttonsWrap: {
         flex: 2,
-        justifyContent: "center"
+        justifyContent: "center",
+        width: "100%",
     },
     button: {
         backgroundColor: "#0072c6"

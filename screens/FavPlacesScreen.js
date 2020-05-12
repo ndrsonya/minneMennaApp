@@ -14,7 +14,7 @@ export default function FavPlacesScreen({ navigation }) {
     // Update table
     const updateList = () => {
         db.transaction(tx => {
-            tx.executeSql('select * from favplaces;', [], (_, { rows }) =>
+            tx.executeSql('select * from places;', [], (_, { rows }) =>
                 setList(rows._array)
             );
         });
@@ -24,7 +24,7 @@ export default function FavPlacesScreen({ navigation }) {
     const deleteItem = (id) => {
         db.transaction(
             tx => {
-                tx.executeSql(`delete from favplaces where id = ?;`, [id]);
+                tx.executeSql(`delete from places where id = ?;`, [id]);
             }, null, updateList
         )
     }
@@ -62,7 +62,7 @@ export default function FavPlacesScreen({ navigation }) {
         <View style={styles.container}>
             <HeaderElement />
             <SafeAreaView style={styles.safeArea}>
-
+            <Text style={{ fontSize: 30, alignSelf: "center" }}>My favorite places: </Text>
                 <FlatList
                     style={styles.flatlist}
                     keyExtractor={this.keyExtractor}

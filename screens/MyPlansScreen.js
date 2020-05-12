@@ -62,7 +62,7 @@ export default function MyPlansScreen({ navigation }) {
         <View style={styles.container}>
             <HeaderElement />
             <SafeAreaView style={styles.safeArea}>
-
+            <Text style={{ fontSize: 30, alignSelf: "center" }}>My saved events: </Text>
                 <FlatList
                     style={styles.flatlist}
                     keyExtractor={this.keyExtractor}
